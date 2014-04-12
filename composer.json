@@ -1,0 +1,23 @@
+{
+    "name": "so-php/framework",
+    "description": "Service Oriented PHP Framework",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Jeremy Giberson",
+            "email": "jeremygiberson@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"SOPHP\\": "src/Sophp"}
+    },
+    "require": {
+        "zendframework/zend-loader": ">=2.2.0",
+        "zendframework/zend-servicemanager": "2.3.*@dev",
+        "zendframework/zend-eventmanager": "2.3.*@dev",
+        "zendframework/zend-uri": "2.3.*@dev",
+        "zendframework/zend-modulemanager": "2.3.*@dev",
+        "zendframework/zend-config": "2.3.*@dev",
+        "zendframework/zend-cache": "2.3.*@dev"
+    }
+}
