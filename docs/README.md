@@ -25,10 +25,10 @@ A new ResponseSent event is added to the application event manager. Any componen
 # Peering Service Metadata
 In order to cluster the various zf2 instances in play, certain information needs to be persisted in network accessible concurrent write-lock protected storage mechanism. In addition to supporting the zf2 cluster functionality, the metadata storage also acts as a cache mechanism across multiple executions of a single zf2 instance as well as across executions of all zf2 instances. The cache is necessary to prevent the inevitable network storm that result from the instances trying to sync with each other on a per-request basis if the cache wasn't avaialble.
 
-## ServiceName -> Peering Service : Yes ? No.
-Every service that is requested through the PeeringServiceFactory is added to a map of peering service to service names which indicates if the peering service provides it. This mapping is both a positive and negative association list--necessary so we can determine the difference between a service not being able to provide a service and just not knowing because we haven't checked yet.
+## Service Provider Cache
+Every service that is requested through the PeeringServiceFactory is added to a map of peers and services which indicates if the peering service provides each service. This mapping is both a positive and negative association list--necessary so we can determine the difference between a service not being able to provide a service and just not knowing because we haven't checked yet.
 
-## Peering Service Registry
+## Peer Registry
 In order to cluster the various zf2 instances, they all need to know about each other. Part of the SO-PHP framework is a mechanism that prior to dispatch we check the metadata registry to see if the current instance has been registered and do so if necessary. By default, zf2 instances are identified by their server name--but there is a config entry that can be provided to override the value that would be automatically determined.
 
 ## RemoteEvent Listener registration

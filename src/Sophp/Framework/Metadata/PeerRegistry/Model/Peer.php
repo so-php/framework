@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Sophp\Framework\Metadata\Model;
+namespace Sophp\Framework\Metadata\PeerRegistry\Model;
 
 
 use Zend\Uri\Uri;
@@ -11,6 +11,13 @@ class Peer {
     protected $id;
     /** @var  Uri */
     protected $uri;
+
+    /**
+     * @return Peer
+     */
+    public static function build(){
+        return new Peer();
+    }
 
     /**
      * @param string $id
