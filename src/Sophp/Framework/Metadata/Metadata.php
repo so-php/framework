@@ -4,7 +4,7 @@
 namespace Sophp\Framework\Metadata;
 
 
-use Sophp\Framework\Metadata\PeerRegistery\PeerRegistryInterface;
+use Sophp\Framework\Metadata\PeerRegistry\PeerRegistryInterface;
 use Sophp\Framework\Metadata\ServiceProviderCache\ServiceProviderCacheInterface;
 
 class Metadata {
