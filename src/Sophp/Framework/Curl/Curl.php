@@ -77,11 +77,28 @@ class Curl implements ResourceFactoryInterface {
     public function exec(){
         $handle = $this->build();
 
-        $result = curl_exec($handle);
+        $result = $this->curlExec($handle);
 
-        curl_close($handle);
+        $this->curlClose($handle);
 
         return $result;
+    }
+
+    /**
+     * Native function wrapper for testing
+     * @param $handle
+     * @return mixed
+     */
+    protected function curlExec($handle){
+        return curl_exec($handle);
+    }
+
+    /**
+     * Native function wrapper for testing
+     * @param $handle
+     */
+    protected function curlClose($handle){
+        curl_close($handle);
     }
 
     // TODO helper methods for setting URI, METHOD,

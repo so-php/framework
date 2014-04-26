@@ -4,6 +4,7 @@
 namespace Sophp\Framework\Curl\MultiCurl;
 
 
+use Sophp\Framework\Curl\MultiCurl\Status\Status;
 use Sophp\Framework\Curl\ResourceFactory\ResourceFactoryInterface;
 use Zend\Uri\Uri;
 
@@ -103,17 +104,45 @@ class MultiCurl implements ResourceFactoryInterface {
      * @return bool|string
      */
     public function exec(){
-        $multiHandle = curl_multi_init();
+        $multiHandle = $this->curlMultiInit();
 
         $handles = array();
         foreach($this->uris as $uri){
             $handle = $this->build();
-            curl_multi_add_handle($multiHandle, $handle);
+            $this->curlMultiAddHandle($multiHandle, $handle);
             $handles[] = $handle;
         }
 
-        curl_multi_exec($multiHandle, $stillRunning);
+        $this->curlMultiExec($multiHandle, $stillRunning);
         $status = new Status($multiHandle, $stillRunning, $handles);
         return $status;
+    }
+
+    /**
+     * Native function wrapper for testing
+     * @return resource
+     */
+    protected function curlMultiInit(){
+        return curl_multi_init();
+    }
+
+    /**
+     * Native function wrapper for testing
+     * @param $multiHandle
+     * @param $curlHandle
+     * @return int
+     */
+    protected function curlMultiAddHandle($multiHandle, $curlHandle){
+        return curl_multi_add_handle($multiHandle, $curlHandle);
+    }
+
+    /**
+     * Native function wrapper for testing
+     * @param $multiHandle
+     * @param $stillRunning
+     * @return int
+     */
+    protected function curlMultiExec($multiHandle, & $stillRunning) {
+        return curl_multi_exec($multiHandle, $stillRunning);
     }
 }

@@ -44,12 +44,32 @@ class ResourceFactory implements ResourceFactoryInterface {
     public function build(Uri $uri = null)
     {
 
-        $handle = curl_init($uri ? $uri->toString() : null);
+        $handle = $this->curlInit($uri ? $uri->toString() : null);
 
         foreach($this->options as $option => $value){
-            curl_setopt($handle, $option, $value);
+            $this->curlSetOpt($handle, $option, $value);
         }
 
         return $handle;
+    }
+
+    /**
+     * Native method wrapper for testing
+     * @param null $uri
+     * @return resource
+     */
+    protected function curlInit($uri = null){
+        return curl_init($uri);
+    }
+
+    /**
+     * Native method wrapper for testing
+     * @param $handle
+     * @param int $option
+     * @param $value
+     * @return bool
+     */
+    protected function curlSetOpt($handle, $option, $value){
+        return curl_setopt($handle, $option, $value);
     }
 }
