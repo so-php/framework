@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Sophp\Framework\ServiceDiscovery;
+namespace SoPhp\Framework\ServiceDiscovery;
 
 
 use PhpAmqpLib\Connection\AMQPConnection;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Sophp\Framework\Bundle;
+namespace SoPhp\Framework\Bundle;
 
 
 interface AutoloaderProviderInterface {

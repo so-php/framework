@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Sophp\Framework\Bundle\Loader;
+namespace SoPhp\Framework\Bundle\Loader;
 
 use RecursiveDirectoryIterator;
 use ReflectionClass;
-use Sophp\Framework\Bundle\BundleInterface;
+use SoPhp\Framework\Bundle\BundleInterface;
 
 
 class Loader {

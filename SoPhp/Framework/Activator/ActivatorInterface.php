@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Sophp\Framework\Activator;
+namespace SoPhp\Framework\Activator;
 
-use Sophp\Framework\Activator\Context\Context;
+use SoPhp\Framework\Activator\Context\Context;
 
 interface ActivatorInterface {
     /**

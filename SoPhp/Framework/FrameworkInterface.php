@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Sophp\Framework;
+namespace SoPhp\Framework;
 
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
-use Sophp\Framework\Bundle\BundleInterface;
+use SoPhp\Framework\Bundle\BundleInterface;
 
 interface FrameworkInterface {
     /**

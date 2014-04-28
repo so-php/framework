@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Sophp\Framework\Bundle;
+namespace SoPhp\Framework\Bundle;
 
 
-use Sophp\Framework\Activator\Context\Context;
+use SoPhp\Framework\Activator\Context\Context;
 
 interface BundleInterface {
     /**

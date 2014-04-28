@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Sophp\Framework\Logger;
+namespace SoPhp\Framework\Logger;
 
 
 use PhpAmqpLib\Channel\AMQPChannel;

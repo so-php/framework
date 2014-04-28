@@ -1,18 +1,18 @@
 <?php
 
 
-namespace Sophp\Framework;
+namespace SoPhp\Framework;
 
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
-use Sophp\Framework\Activator\Activator;
-use Sophp\Framework\Activator\ActivatorInterface;
-use Sophp\Framework\Activator\Context\Context;
-use Sophp\Framework\Bundle\ActivatorProviderInterface;
-use Sophp\Framework\Bundle\AutoloaderProviderInterface;
-use Sophp\Framework\Bundle\BundleInterface;
-use Sophp\Framework\Logger\Logger;
+use SoPhp\Framework\Activator\Activator;
+use SoPhp\Framework\Activator\ActivatorInterface;
+use SoPhp\Framework\Activator\Context\Context;
+use SoPhp\Framework\Bundle\ActivatorProviderInterface;
+use SoPhp\Framework\Bundle\AutoloaderProviderInterface;
+use SoPhp\Framework\Bundle\BundleInterface;
+use SoPhp\Framework\Logger\Logger;
 
 class Framework implements FrameworkInterface, BundleInterface {
     /** @var  ActivatorInterface */

@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Sophp\Framework\Activator\Context;
+namespace SoPhp\Framework\Activator\Context;
 
 
-use Sophp\Framework\Bundle\BundleInterface;
-use Sophp\Framework\FrameworkInterface;
+use SoPhp\Framework\Bundle\BundleInterface;
+use SoPhp\Framework\FrameworkInterface;
 
 class Context {
     /** @var  FrameworkInterface */

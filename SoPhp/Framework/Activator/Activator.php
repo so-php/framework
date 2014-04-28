@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Sophp\Framework\Activator;
+namespace SoPhp\Framework\Activator;
 
 use PhpAmqpLib\Channel\AMQPChannel;
-use Sophp\Framework\Activator\Context\Context;
-use Sophp\Framework\Bundle\Loader\Loader;
-use Sophp\Framework\Logger\Logger;
+use SoPhp\Framework\Activator\Context\Context;
+use SoPhp\Framework\Bundle\Loader\Loader;
+use SoPhp\Framework\Logger\Logger;
 
 class Activator implements ActivatorInterface {
     /** @var  Logger */

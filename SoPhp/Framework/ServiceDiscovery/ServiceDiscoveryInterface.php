@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Sophp\Framework\ServiceDiscovery;
+namespace SoPhp\Framework\ServiceDiscovery;
 
 
 interface ServiceDiscoveryInterface {

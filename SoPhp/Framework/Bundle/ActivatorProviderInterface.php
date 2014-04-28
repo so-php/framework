@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Sophp\Framework\Bundle;
+namespace SoPhp\Framework\Bundle;
 
 
-use Sophp\Framework\Activator\ActivatorInterface;
+use SoPhp\Framework\Activator\ActivatorInterface;
 
 interface ActivatorProviderInterface {
     /**

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Sophp\Framework\ServiceProvider;
+namespace SoPhp\Framework\ServiceProvider;
 
 
 interface ServiceProviderInterface {
