@@ -34,6 +34,13 @@ class Module implements RouteProviderInterface, ServiceProviderInterface, Bootst
     public function getServiceConfig()
     {
         // TODO: Implement getServiceConfig() method.
+        return array(
+            'service_manager' => array(
+                'abstract_factories' => array(
+                    '\Sophp\Framework\ServiceManager\AbstractFactory\PeeringServiceFactory'
+                ),
+            ),
+        );
     }
 
     /**
