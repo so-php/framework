@@ -1,0 +1,17 @@
+{
+    "name": "so-php/framework",
+    "description": "Service Oriented Framework for PHP utilizing RabbitMQ",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Jeremy Giberson",
+            "email": "jeremygiberson@gmail.com"
+        }
+    ],
+    "require": {
+        "videlalvaro/php-amqplib": "v2.1.0"
+    },
+    "autoload": {
+        "psr-4": {"Sophp\\Framework\\": "Sophp\\Framework/"}
+    }
+}
