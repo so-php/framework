@@ -12,6 +12,6 @@
         "videlalvaro/php-amqplib": "v2.1.0"
     },
     "autoload": {
-        "psr-4": {"Sophp\\Framework\\": "Sophp\\Framework/"}
+        "psr-4": {"SoPhp\\Framework\\": "SoPhp\\Framework/"}
     }
 }
