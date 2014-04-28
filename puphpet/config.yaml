@@ -75,7 +75,7 @@ apache:
             servername: sophp.dev
             serveraliases:
                 - www.sophp.dev
-            docroot: /var/www/sophp
+            docroot: /var/www/
             port: '80'
             setenv:
                 - 'APP_ENV dev'

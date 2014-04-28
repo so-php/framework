@@ -1,6 +1,6 @@
 <?php
 use PhpAmqpLib\Connection\AMQPConnection;
-use Sophp\Framework\Framework;
+use SoPhp\Framework\Framework;
 
 require_once __DIR__ .'/vendor/autoload.php';
 
