@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/so-php/framework.png?label=ready&title=Ready)](https://waffle.io/so-php/framework)
 # framework
 
 Service Oriented PHP Framework. Influenced by Java's OSGI. Built on RabbitMQ.
