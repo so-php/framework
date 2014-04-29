@@ -9,20 +9,28 @@ use SoPhp\Framework\Bundle\Loader\Loader;
 use SoPhp\Framework\Logger\Logger;
 
 class Activator implements ActivatorInterface {
-    /** @var  Logger */
-    protected $logger;
+    /** @var  Loader */
+    protected $loader;
 
     /**
-     * @param AMQPChannel $channel
-     * @return Logger
+     * @return Loader
      */
-    protected function getLogger(AMQPChannel $channel)
+    public function getLoader()
     {
-        // TODO use service locator or DI
-        if(!$this->logger) {
-            $this->logger = new Logger($channel);
+        if(!$this->loader){
+            $this->loader = new Loader();
         }
-        return $this->logger;
+        return $this->loader;
+    }
+
+    /**
+     * @param Loader $loader
+     * @return self
+     */
+    public function setLoader($loader)
+    {
+        $this->loader = $loader;
+        return $this;
     }
 
     /**
@@ -30,12 +38,12 @@ class Activator implements ActivatorInterface {
      */
     public function start(Context $context)
     {
-        $logger = $this->getLogger($context->getFramework()->getChannel());
+        $logger = $context->getLogger();
         $logger->info(" [x] Starting Bundles ...");
 
-        $loader = new Loader();
+        $loader = $this->getLoader();
         $bundles = $loader->load();
-        // load bundles & call activator[s].start()
+
         foreach($bundles as $bundle){
             $context->getFramework()->load($bundle);
             $context->getFramework()->start($bundle);
@@ -49,7 +57,7 @@ class Activator implements ActivatorInterface {
      */
     public function stop(Context $context)
     {
-        $logger = $this->getLogger($context->getFramework()->getChannel());
+        $logger = $context->getLogger();
         $logger->info(" [x] Stopping Bundles ...");
 
         foreach($context->getFramework()->getBundles() as $bundle){
@@ -58,4 +66,6 @@ class Activator implements ActivatorInterface {
 
         $logger->info(" [x] Stopped Bundles.");
     }
+
+
 }

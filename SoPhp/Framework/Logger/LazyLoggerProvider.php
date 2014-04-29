@@ -20,6 +20,13 @@ trait LazyLoggerProvider {
     }
 
     /**
+     * @param Logger $logger
+     */
+    public function setLogger(Logger $logger){
+        $this->_logger = $logger;
+    }
+
+    /**
      * @return AMQPChannel
      */
     abstract public function getChannel();

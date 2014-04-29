@@ -4,10 +4,13 @@
 namespace SoPhp\Framework\Activator\Context;
 
 
+use PhpAmqpLib\Channel\AMQPChannel;
 use SoPhp\Framework\Bundle\BundleInterface;
 use SoPhp\Framework\FrameworkInterface;
+use SoPhp\Framework\Logger\LazyLoggerProvider;
 
 class Context {
+    use LazyLoggerProvider;
     /** @var  FrameworkInterface */
     protected $framework;
     /** @var  BundleInterface */
@@ -57,6 +60,14 @@ class Context {
     {
         $this->framework = $framework;
         return $this;
+    }
+
+    /**
+     * @return AMQPChannel
+     */
+    public function getChannel()
+    {
+        return $this->getFramework()->getChannel();
     }
 
 
