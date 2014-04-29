@@ -12,9 +12,11 @@ use SoPhp\Framework\Activator\Context\Context;
 use SoPhp\Framework\Bundle\ActivatorProviderInterface;
 use SoPhp\Framework\Bundle\AutoloaderProviderInterface;
 use SoPhp\Framework\Bundle\BundleInterface;
-use SoPhp\Framework\Logger\Logger;
+use SoPhp\Framework\Logger\LazyLoggerProvider;
 
 class Framework implements FrameworkInterface, BundleInterface {
+    use LazyLoggerProvider;
+
     /** @var  ActivatorInterface */
     protected $activator;
 
@@ -37,11 +39,6 @@ class Framework implements FrameworkInterface, BundleInterface {
      * @var AMQPChannel
      */
     protected $channel;
-
-    /**
-     * @var Logger
-     */
-    protected $logger;
 
     /**
      * @return AMQPConnection
@@ -78,19 +75,6 @@ class Framework implements FrameworkInterface, BundleInterface {
         $this->channel = $channel;
         return $this;
     }
-
-    /**
-     * @return Logger
-     */
-    public function getLogger()
-    {
-        // TODO use service locator or DI
-        if(!$this->logger) {
-            $this->logger = new Logger($this->getChannel());
-        }
-        return $this->logger;
-    }
-
 
     /**
      * @param AMQPConnection $connection

@@ -109,12 +109,5 @@ class FrameworkTest extends \PHPUnit_Framework_TestCase {
 
         $this->framework->stop($bundleMock);
     }
-
-    public function testGetLoggerLazyLoadsInstance(){
-        $channelMock = $this->getMock('\Test\PhpAmqpLib\ChannelStub');
-        $this->framework->setChannel($channelMock);
-        $test = $this->framework->getLogger();
-        $this->assertInstanceOf('\SoPhp\Framework\Logger\Logger', $test);
-    }
 }
  
