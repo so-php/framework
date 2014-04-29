@@ -12,10 +12,12 @@ use SoPhp\Framework\Activator\Context\Context;
 use SoPhp\Framework\Bundle\ActivatorProviderInterface;
 use SoPhp\Framework\Bundle\AutoloaderProviderInterface;
 use SoPhp\Framework\Bundle\BundleInterface;
+use SoPhp\Framework\Config\ConfigAware;
 use SoPhp\Framework\Logger\LazyLoggerProvider;
 
 class Framework implements FrameworkInterface, BundleInterface {
     use LazyLoggerProvider;
+    use ConfigAware;
 
     /** @var  ActivatorInterface */
     protected $activator;

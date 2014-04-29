@@ -7,8 +7,9 @@ namespace SoPhp\Framework;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
 use SoPhp\Framework\Bundle\BundleInterface;
+use SoPhp\Framework\Config\ConfigAwareInterface;
 
-interface FrameworkInterface {
+interface FrameworkInterface extends ConfigAwareInterface {
     /**
      * @return BundleInterface[]
      */

@@ -42,6 +42,8 @@ class Activator implements ActivatorInterface {
         $logger->info(" [x] Starting Bundles ...");
 
         $loader = $this->getLoader();
+        $loader->setConfig($context->getFramework()->getConfig());
+
         $bundles = $loader->load();
 
         foreach($bundles as $bundle){

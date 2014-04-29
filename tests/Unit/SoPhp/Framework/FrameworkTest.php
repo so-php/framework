@@ -30,6 +30,12 @@ class FrameworkTest extends \PHPUnit_Framework_TestCase {
             ->will($this->returnValue($this->channelMock));
 
         $this->framework = new Framework($this->connectionMock);
+        $this->framework->setConfig(new \ArrayObject(array(
+            'bundles' => array(
+                'deployDir' => __DIR__,
+                'searchDepth' => 0,
+            ),
+        )));
     }
 
     public function testRunLoopsWhileChannelHasCallbacks(){

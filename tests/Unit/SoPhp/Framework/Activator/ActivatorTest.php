@@ -26,6 +26,16 @@ class ActivatorTest extends \PHPUnit_Framework_TestCase {
         $loggerMock = $this->getMock('\SoPhp\Framework\Logger\Logger', array(), array(), '', false);
         $frameworkMock = $this->getMock('\SoPhp\Framework\FrameworkInterface');
         $bundleMock = $this->getMock('\Test\SoPhp\Framework\Bundle\BundleWithActivator');
+
+        $frameworkMock->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValue(new \ArrayObject(array(
+            'bundles' => array(
+                'deployDir' => __DIR__,
+                'searchDepth' => 0,
+            ),
+        ))));
+
         /** @var $loggerMock Logger */
         /** @var $bundleMock BundleInterface */
         /** @var $frameworkMock FrameworkInterface */

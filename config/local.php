@@ -6,4 +6,8 @@
             'user' => 'guest',
             'password' => 'guest'
         ),
+        'bundles' => array(
+            'deployDir' => __DIR__.'/../vendor/',
+            'searchDepth' => 3
+        ),
     );
