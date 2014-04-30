@@ -4,6 +4,7 @@
 namespace SoPhp\Framework;
 
 
+use SoPhp\Framework\ServiceLocator\ServiceLocatorAware;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
 use SoPhp\Framework\Activator\Activator;
@@ -18,6 +19,7 @@ use SoPhp\Framework\Logger\LazyLoggerProvider;
 class Framework implements FrameworkInterface, BundleInterface {
     use LazyLoggerProvider;
     use ConfigAware;
+    use ServiceLocatorAware;
 
     /** @var  ActivatorInterface */
     protected $activator;

@@ -3,10 +3,12 @@
 
 namespace SoPhp\Framework\Activator;
 
+use SoPhp\Framework\ServiceLocator\ServiceLocatorAware;
+use SoPhp\Framework\ServiceLocator\ServiceLocatorStub;
 use PhpAmqpLib\Channel\AMQPChannel;
 use SoPhp\Framework\Activator\Context\Context;
 use SoPhp\Framework\Bundle\Loader\Loader;
-use SoPhp\Framework\Logger\Logger;
+
 
 class Activator implements ActivatorInterface {
     /** @var  Loader */
@@ -41,15 +43,9 @@ class Activator implements ActivatorInterface {
         $logger = $context->getLogger();
         $logger->info(" [x] Starting Bundles ...");
 
-        $loader = $this->getLoader();
-        $loader->setConfig($context->getFramework()->getConfig());
+        $this->initServiceLocator($context);
 
-        $bundles = $loader->load();
-
-        foreach($bundles as $bundle){
-            $context->getFramework()->load($bundle);
-            $context->getFramework()->start($bundle);
-        }
+        $this->startBundles($context);
 
         $logger->info(" [x] Started Bundles. ");
     }
@@ -62,11 +58,50 @@ class Activator implements ActivatorInterface {
         $logger = $context->getLogger();
         $logger->info(" [x] Stopping Bundles ...");
 
-        foreach($context->getFramework()->getBundles() as $bundle){
-            $context->getFramework()->stop($bundle);
-        }
+        $this->stopBundles($context);
 
         $logger->info(" [x] Stopped Bundles.");
+    }
+
+    /**
+     * @param Context $context
+     */
+    protected function initServiceLocator(Context $context)
+    {
+        $framework = $context->getFramework();
+        if($framework instanceof ServiceLocatorAware) {
+            $serviceLocator = new ServiceLocatorStub();
+            $serviceLocator->setConfig($context->getFramework()->getConfig());
+            $framework->setServiceLocator($serviceLocator);
+        }
+    }
+
+    /**
+     * @param Context $context
+     */
+    protected function startBundles(Context $context)
+    {
+        $framework = $context->getFramework();
+        $loader = $this->getLoader();
+        $loader->setConfig($framework->getConfig());
+
+        $bundles = $loader->load();
+
+        foreach($bundles as $bundle){
+            $framework->load($bundle);
+            $framework->start($bundle);
+        }
+    }
+
+    /**
+     * @param Context $context
+     */
+    protected function stopBundles(Context $context)
+    {
+        $framework = $context->getFramework();
+        foreach($framework->getBundles() as $bundle){
+            $framework->stop($bundle);
+        }
     }
 
 
