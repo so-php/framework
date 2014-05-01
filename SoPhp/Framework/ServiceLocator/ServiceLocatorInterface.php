@@ -10,4 +10,10 @@ interface ServiceLocatorInterface {
      * @return mixed
      */
     public function get($serviceName);
+
+    /**
+     * @param string $serviceName
+     * @return bool
+     */
+    public function canCreate($serviceName);
 } 

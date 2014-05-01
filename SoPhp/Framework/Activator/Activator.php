@@ -41,13 +41,13 @@ class Activator implements ActivatorInterface {
     public function start(Context $context)
     {
         $logger = $context->getLogger();
-        $logger->info(" [x] Starting Bundles ...");
+        $logger->info("Starting Bundles ...");
 
         $this->initServiceLocator($context);
 
         $this->startBundles($context);
 
-        $logger->info(" [x] Started Bundles. ");
+        $logger->info("Started Bundles. ");
     }
 
     /**
@@ -56,11 +56,11 @@ class Activator implements ActivatorInterface {
     public function stop(Context $context)
     {
         $logger = $context->getLogger();
-        $logger->info(" [x] Stopping Bundles ...");
+        $logger->info("Stopping Bundles ...");
 
         $this->stopBundles($context);
 
-        $logger->info(" [x] Stopped Bundles.");
+        $logger->info("Stopped Bundles.");
     }
 
     /**

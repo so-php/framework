@@ -8,6 +8,7 @@ use SoPhp\Framework\Config\ConfigAware;
 
 class ServiceLocatorStub implements ServiceLocatorInterface {
     use ConfigAware;
+    use ServiceLocatorPeerAware;
 
     /**
      * @var mixed[]
@@ -24,6 +25,7 @@ class ServiceLocatorStub implements ServiceLocatorInterface {
         if(!isset($this->instances[$cname])){
             $this->instances[$cname] = $this->create($serviceName);
         }
+        return $this->instances[$cname];
     }
 
     /**
@@ -38,6 +40,8 @@ class ServiceLocatorStub implements ServiceLocatorInterface {
             } catch (\Exception $e) {
                 throw new \RuntimeException("Cannot create service `$serviceName`, ". $e->getMessage(), 0, $e);
             }
+        } else {
+            $this->peerCreate($serviceName);
         }
         throw new \RuntimeException("Cannot create service `$serviceName`, class does not exist.");
     }
@@ -48,5 +52,19 @@ class ServiceLocatorStub implements ServiceLocatorInterface {
      */
     protected function sanitize($name){
         return strtolower($name);
+    }
+
+    /**
+     * @param string $serviceName
+     * @return bool
+     */
+    public function canCreate($serviceName)
+    {
+        if(!class_exists($serviceName)){
+            return $this->canPeerCreate($serviceName);
+        }
+
+        $reflectionClass = new \ReflectionClass($serviceName);
+        return $reflectionClass->isInstantiable();
     }
 }

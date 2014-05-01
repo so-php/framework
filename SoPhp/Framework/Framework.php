@@ -4,6 +4,8 @@
 namespace SoPhp\Framework;
 
 
+use ArrayObject;
+use SoPhp\Framework\Bundle\ConfigProviderInterface;
 use SoPhp\Framework\ServiceLocator\ServiceLocatorAware;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
@@ -15,6 +17,7 @@ use SoPhp\Framework\Bundle\AutoloaderProviderInterface;
 use SoPhp\Framework\Bundle\BundleInterface;
 use SoPhp\Framework\Config\ConfigAware;
 use SoPhp\Framework\Logger\LazyLoggerProvider;
+use SoPhp\Framework\ServiceLocator\ServiceLocatorStub;
 
 class Framework implements FrameworkInterface, BundleInterface {
     use LazyLoggerProvider;
@@ -105,7 +108,7 @@ class Framework implements FrameworkInterface, BundleInterface {
     public function run(){
         $this->init();
 
-        $this->getLogger()->info(" [*] Running. To exit press CTRL+C");
+        $this->getLogger()->info("Running. To exit press CTRL+C");
 
         // todo add stop condition
         while(count($this->channel->callbacks) > 0) {
@@ -142,10 +145,24 @@ class Framework implements FrameworkInterface, BundleInterface {
      */
     public function start(BundleInterface $bundle)
     {
+        $context = new Context($bundle, $this);
+
+        if($bundle instanceof ConfigProviderInterface){
+            $config = array_merge($this->getConfig(), $bundle->getConfig());
+            $context->setConfig(new ArrayObject($config));
+        } else {
+            $context->setConfig($this->getConfig());
+        }
+
+        $locator = new ServiceLocatorStub();
+        $locator->setConfig($context->getConfig());
+        // link locator to framework locator
+        $context->setServiceLocator($locator);
+
         if($bundle instanceof ActivatorProviderInterface){
             $activator = $bundle->getActivator();
             /** @var $bundle BundleInterface */
-            $activator->start(new Context($bundle, $this));
+            $activator->start($context);
         }
     }
 
