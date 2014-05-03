@@ -6,7 +6,12 @@ namespace SoPhp\Framework\Logger;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 
-trait LazyLoggerProvider {
+/**
+ * Class LazyLoggerProviderTrait
+ * @package SoPhp\Framework\Logger
+ * @satisifies SoPhp\Framework\Logger\LoggerAwareInterface
+ */
+trait LazyLoggerProviderTrait {
     protected $_logger;
     /**
      * @return Logger

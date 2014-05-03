@@ -6,7 +6,9 @@ namespace SoPhp\Framework;
 
 use ArrayObject;
 use SoPhp\Framework\Bundle\ConfigProviderInterface;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorAware;
+use SoPhp\Framework\Logger\LoggerAwareInterface;
+use SoPhp\Framework\ServiceLocator\Adapter\Stub;
+use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
 use SoPhp\Framework\Activator\Activator;
@@ -15,14 +17,14 @@ use SoPhp\Framework\Activator\Context\Context;
 use SoPhp\Framework\Bundle\ActivatorProviderInterface;
 use SoPhp\Framework\Bundle\AutoloaderProviderInterface;
 use SoPhp\Framework\Bundle\BundleInterface;
-use SoPhp\Framework\Config\ConfigAware;
-use SoPhp\Framework\Logger\LazyLoggerProvider;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorStub;
+use SoPhp\Framework\Config\ConfigAwareTrait;
+use SoPhp\Framework\Logger\LazyLoggerProviderTrait;
 
-class Framework implements FrameworkInterface, BundleInterface {
-    use LazyLoggerProvider;
-    use ConfigAware;
-    use ServiceLocatorAware;
+class Framework implements FrameworkInterface, BundleInterface,
+    LoggerAwareInterface {
+    use LazyLoggerProviderTrait;
+    use ConfigAwareTrait;
+    use ServiceLocatorAwareTrait;
 
     /** @var  ActivatorInterface */
     protected $activator;
@@ -147,14 +149,9 @@ class Framework implements FrameworkInterface, BundleInterface {
     {
         $context = new Context($bundle, $this);
 
-        if($bundle instanceof ConfigProviderInterface){
-            $config = array_merge($this->getConfig(), $bundle->getConfig());
-            $context->setConfig(new ArrayObject($config));
-        } else {
-            $context->setConfig($this->getConfig());
-        }
+        $this->configureContext($context, $bundle);
 
-        $locator = new ServiceLocatorStub();
+        $locator = new Stub();
         $locator->setConfig($context->getConfig());
         // link locator to framework locator
         $context->setServiceLocator($locator);
@@ -192,5 +189,21 @@ class Framework implements FrameworkInterface, BundleInterface {
     public function getContext()
     {
         return $this->context;
+    }
+
+    /**
+     * @param Context $context
+     * @param BundleInterface $bundle
+     */
+    protected function configureContext(Context $context, BundleInterface $bundle)
+    {
+        // let bundle config override framework config
+        if($bundle instanceof ConfigProviderInterface){
+            $config = array_merge($this->getConfig(), $bundle->getConfig());
+            $context->setConfig(new ArrayObject($config));
+        } else {
+            $context->setConfig($this->getConfig());
+        }
+        // todo override both with local config
     }
 }

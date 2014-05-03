@@ -6,6 +6,10 @@ namespace SoPhp\Framework\Config;
 
 use ArrayAccess;
 
+/**
+ * Interface ConfigAwareInterface
+ * @package SoPhp\Framework\Config
+ */
 interface ConfigAwareInterface {
     /**
      * @param ArrayAccess $config

@@ -3,7 +3,7 @@
 
 namespace SoPhp\Framework\Activator;
 
-use SoPhp\Framework\ServiceLocator\ServiceLocatorAware;
+use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
 use SoPhp\Framework\ServiceLocator\ServiceLocatorStub;
 use PhpAmqpLib\Channel\AMQPChannel;
 use SoPhp\Framework\Activator\Context\Context;
@@ -69,7 +69,7 @@ class Activator implements ActivatorInterface {
     protected function initServiceLocator(Context $context)
     {
         $framework = $context->getFramework();
-        if($framework instanceof ServiceLocatorAware) {
+        if($framework instanceof ServiceLocatorAwareTrait) {
             $serviceLocator = new ServiceLocatorStub();
             $serviceLocator->setConfig($context->getFramework()->getConfig());
             $framework->setServiceLocator($serviceLocator);

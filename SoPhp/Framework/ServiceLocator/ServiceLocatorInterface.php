@@ -16,4 +16,9 @@ interface ServiceLocatorInterface {
      * @return bool
      */
     public function canCreate($serviceName);
+
+    /**
+     * @return string
+     */
+    public function getId();
 } 

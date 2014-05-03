@@ -3,7 +3,7 @@
 
 namespace SoPhp\Framework\Bundle\Loader;
 
-use SoPhp\Framework\Config\ConfigAware;
+use SoPhp\Framework\Config\ConfigAwareTrait;
 use SoPhp\Framework\Config\Exception\InvalidDirectiveException;
 use SoPhp\Framework\Config\Exception\MissingDirectiveException;
 use RecursiveDirectoryIterator;
@@ -12,7 +12,7 @@ use SoPhp\Framework\Bundle\BundleInterface;
 
 
 class Loader {
-    use ConfigAware;
+    use ConfigAwareTrait;
 
     /**
      * @return BundleInterface[]

@@ -6,15 +6,15 @@ namespace SoPhp\Framework\Activator\Context;
 
 use PhpAmqpLib\Channel\AMQPChannel;
 use SoPhp\Framework\Bundle\BundleInterface;
-use SoPhp\Framework\Config\ConfigAware;
+use SoPhp\Framework\Config\ConfigAwareTrait;
 use SoPhp\Framework\FrameworkInterface;
-use SoPhp\Framework\Logger\LazyLoggerProvider;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorAware;
+use SoPhp\Framework\Logger\LazyLoggerProviderTrait;
+use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
 
 class Context {
-    use LazyLoggerProvider;
-    use ServiceLocatorAware;
-    use ConfigAware;
+    use LazyLoggerProviderTrait;
+    use ServiceLocatorAwareTrait;
+    use ConfigAwareTrait;
 
     /** @var  FrameworkInterface */
     protected $framework;

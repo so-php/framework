@@ -4,9 +4,23 @@
 namespace SoPhp\Framework\ServiceLocator;
 
 
-trait ServiceLocatorPeerAware {
+use SoPhp\Framework\ServiceLocator\CyclicalResolution\CyclicalResolution;
+
+/**
+ * Trait ServiceLocatorPeerAwareTrait
+ * @package SoPhp\Framework\ServiceLocator
+ * @satisfies SoPhp\Framework\ServiceLocator\ServiceLocatorPeerAwareInterface
+ */
+trait ServiceLocatorPeerAwareTrait {
     /** @var  ServiceLocatorInterface[] */
-    protected $peers;
+    protected $peers = array();
+
+    /**
+     * @return ServiceLocatorInterface[]
+     */
+    public function getPeers(){
+        return $this->peers;
+    }
 
     /**
      * @param ServiceLocatorInterface $peer
@@ -23,13 +37,14 @@ trait ServiceLocatorPeerAware {
     }
 
     /**
-     * @param $serviceName
+     * @param string $serviceName
+     * @param CyclicalResolution $cyclicalResolution
      * @return bool
      */
-    protected function canPeerCreate($serviceName){
+    protected function canPeerCreate($serviceName, CyclicalResolution $cyclicalResolution){
         foreach($this->peers as $peer){
             /** @var $peer ServiceLocatorInterface */
-            if($peer->canCreate($serviceName)){
+            if($peer->canCreate($serviceName, $cyclicalResolution)){
                 return true;
             }
         }
@@ -38,13 +53,14 @@ trait ServiceLocatorPeerAware {
 
     /**
      * @param string $serviceName
+     * @param CyclicalResolution $cyclicalResolution
      * @throws \RuntimeException
      * @return mixed
      */
-    protected function peerCreate($serviceName){
+    protected function peerCreate($serviceName, CyclicalResolution $cyclicalResolution){
         foreach($this->peers as $peer){
             /** @var $peer ServiceLocatorInterface */
-            if($peer->canCreate($serviceName)){
+            if($peer->canCreate($serviceName, $cyclicalResolution)){
                 return $peer->get($serviceName);
             }
         }

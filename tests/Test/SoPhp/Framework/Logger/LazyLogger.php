@@ -5,12 +5,12 @@ namespace Test\SoPhp\Framework\Logger;
 
 
 use PhpAmqpLib\Channel\AMQPChannel;
-use SoPhp\Framework\Logger\LazyLoggerProvider;
+use SoPhp\Framework\Logger\LazyLoggerProviderTrait;
 use SoPhp\Framework\Logger\Logger;
 use Test\PhpAmqpLib\ChannelStub;
 
 class LazyLogger {
-    use LazyLoggerProvider;
+    use LazyLoggerProviderTrait;
     /** @var  AMQPChannel */
     protected $channel;
 
