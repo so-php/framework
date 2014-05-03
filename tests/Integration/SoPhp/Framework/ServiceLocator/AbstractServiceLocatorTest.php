@@ -40,6 +40,25 @@ abstract class AbstractServiceLocatorTest extends \PHPUnit_Framework_TestCase {
         }
     }
 
+    public function testAddAndRemovePeer(){
+        $locator = $this->getAdapter();
+        if($locator instanceof ServiceLocatorPeerAwareInterface){
+            $mocks = array();
+            for($i = rand(2,5); $i > 0; $i--) {
+                $mock = $this->getAdapterMock();
+                $locator->addPeer($mock);
+                $mocks[] = $mock;
+            }
+            $this->assertCount(count($mocks), $locator->getPeers());
+            foreach($mocks as $mock){
+                $locator->remove($mock);
+            }
+            $this->assertCount(0, $locator->getPeers());
+        } else {
+            $this->markTestSkipped('Test does not apply to adapter implementation');
+        }
+    }
+
     public function testCanCreateChecksPeers(){
         $locator = $this->getAdapter();
         if($locator instanceof ServiceLocatorPeerAwareInterface){

@@ -32,8 +32,15 @@ trait ServiceLocatorPeerAwareTrait {
         array_push($this->peers, $peer);
     }
 
+    /**
+     * @param ServiceLocatorInterface $peer
+     */
     public function remove(ServiceLocatorInterface $peer){
-        // TODO
+        foreach($this->peers as $i => $checkPeer){
+            if($peer === $checkPeer){
+                unset($this->peers[$i]);
+            }
+        }
     }
 
     /**
