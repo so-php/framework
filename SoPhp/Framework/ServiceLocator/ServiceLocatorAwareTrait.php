@@ -7,7 +7,7 @@ namespace SoPhp\Framework\ServiceLocator;
 /**
  * Trait ServiceLocatorAwareTrait
  * @package SoPhp\Framework\ServiceLocator
- * @satisfies SoPhp\Framework\ServiceLocator\ServiceLocatorInterface
+ * @satisfies SoPhp\Framework\ServiceLocator\ServiceLocatorAwareInterface
  */
 trait ServiceLocatorAwareTrait {
     /** @var  ServiceLocatorInterface */
