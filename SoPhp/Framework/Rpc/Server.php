@@ -7,6 +7,7 @@ namespace SoPhp\Framework\Rpc;
 use PhpAmqpLib\Message\AMQPMessage;
 use SoPhp\Framework\PhpAmqpLib\ChannelAwareInterface;
 use SoPhp\Framework\PhpAmqpLib\ChannelAwareTrait;
+use SoPhp\Framework\Rpc\Dto\Fault;
 use SoPhp\Framework\Rpc\Dto\Request;
 use SoPhp\Framework\Rpc\Dto\Response;
 use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareInterface;
@@ -58,23 +59,23 @@ class Server implements ChannelAwareInterface, ServiceLocatorAwareInterface {
     public function onRpcRequest(AMQPMessage $request){
         echo ' [x] received ['.$request->delivery_info['routing_key'].']:', $request->body, "\n";
 
-        $rpcRequest = unserialize($request->body);
-        if(!$rpcRequest instanceof Request) {
-            // todo special handling (should we return an exception response?)
-            $response = new Response(new \RuntimeException("Request was not a serialized Request Dto"), true);
-        } else {
-            $response = new Response((object)array('foo' => 'bar'));
-        }
-
         try {
-            $rpInstance = $this->getServiceLocator()->get($rpcRequest->getClass());
+            $rpcRequest = unserialize($request->body);
+            if(!$rpcRequest instanceof Request) {
+                throw new \RuntimeException("Request was not a serialized Request Dto");
+            }
+            $locator = $this->getServiceLocator();
+            if(!$locator){
+                throw new \RuntimeException("Service Locator was not provided");
+            }
+            $rpInstance = $locator->get($rpcRequest->getClass());
             if(!is_callable(array($rpInstance, $rpcRequest->getMethod()))){
                 throw new \RuntimeException("Method `{$rpcRequest->getMethod()}` was not callable on service `{$rpcRequest->getClass()}`");
             }
             $value = call_user_func_array(array($rpInstance, $rpcRequest->getMethod()), $rpcRequest->getParams());
             $response = new Response($value);
         } catch (\Exception $e) {
-            $response = new Response($e, true);
+            $response = new Response(Fault::factory($e), true);
         }
 
         $msg = new AMQPMessage(
