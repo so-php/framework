@@ -1,25 +1,21 @@
 <?php
 
-use Sophp\Framework\Bootstrap;
-use PhpAmqpLib\Connection\AMQPConnection;
-use PhpAmqpLib\Message\AMQPMessage;
+use SoPhp\Framework\Rpc\Client;
+use SoPhp\Framework\Rpc\Exception\RpcFailure;
 
-require_once __DIR__ .'/bootstrap.php';
+require_once __DIR__ .'/bootstrap2.php';
+//define('AMQP_DEBUG', true);
 
-$data = implode(' ', array_slice($argv, 1));
-if(empty($data)) $data = "Hello World!";
+//try {
+    $client = new Client('Hello\World\ServiceInterface');
+    $client->setChannel($connection->channel());
+    $r = $client->greet("Hello!");
+    echo " [*] RPC Response: " . print_r($r, true) . "\n";
+//} catch(RpcFailure $e) {
+//    echo " [!] RPC failed: " . $e ->getMessage() . PHP_EOL;
+//}
 
-
-$msg = new AMQPMessage($data, array(
-    'delivery_mode' => 2 // persist messages
-));
-
-$routing_key = 'test.abc123';
-
-$channel->basic_publish($msg, TOPIC_NAME, $routing_key);
-
-
-echo " [x] Sent '".$data."'\n";
-
-$channel->close();
+$connection->channel()->close();
 $connection->close();
+
+
