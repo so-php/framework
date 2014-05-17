@@ -8,7 +8,9 @@ use SoPhp\Framework\PhpAmqpLib\ChannelAwareInterface;
 use SoPhp\Framework\PhpAmqpLib\ChannelAwareTrait;
 use PhpAmqpLib\Message\AMQPMessage;
 use SoPhp\Framework\Rpc\Dto\Request;
+use SoPhp\Framework\Rpc\Dto\Response;
 use SoPhp\Framework\Rpc\Exception\RpcFailure;
+use SoPhp\Framework\Rpc\Exception\RpcFault;
 
 class Client implements ChannelAwareInterface {
     use ChannelAwareTrait;
@@ -139,16 +141,14 @@ class Client implements ChannelAwareInterface {
         }
 
         // if there was a problem executing rpc
-        /*
         if($this->response instanceof \Exception){
-            throw RpcFailure::generic($this->response);
+            throw $this->response;
         } else if(!$this->response instanceof Response) {
             throw new RpcFailure("Response was not a Response Dto");
-        } else if($this->response->isIsException()){
-            throw RpcFailure::generic($this->response->getRpcReturnValue());
+        } else if($this->response->isFault()){
+            throw new RpcFault($this->response->getRpcReturnValue());
         }
-        */
-        return "foo";
+
         return $this->response->getRpcReturnValue();
     }
 } 
