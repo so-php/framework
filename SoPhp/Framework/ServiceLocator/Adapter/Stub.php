@@ -52,6 +52,16 @@ class Stub  implements ServiceLocatorInterface, ServiceLocatorPeerAwareInterface
     }
 
     /**
+     * Test if instance already exists in locator
+     * @param $serviceName
+     * @return bool
+     */
+    public function hasInstance($serviceName){
+        $cname = $this->sanitize($serviceName);
+        return isset($this->instances[$cname]);
+    }
+
+    /**
      * @param string $serviceName
      * @throws \RuntimeException
      * @return mixed
@@ -95,6 +105,10 @@ class Stub  implements ServiceLocatorInterface, ServiceLocatorPeerAwareInterface
             return false;
         }
 
+        if($this->hasInstance($serviceName)){
+            return true;
+        }
+
         if (!class_exists($serviceName)) {
             if (!$cyclicalResolution) {
                 $cyclicalResolution = new CyclicalResolution();
@@ -106,5 +120,15 @@ class Stub  implements ServiceLocatorInterface, ServiceLocatorPeerAwareInterface
 
         $reflectionClass = new \ReflectionClass($serviceName);
         return $reflectionClass->isInstantiable();
+    }
+
+    /**
+     * Register service instance
+     * @param string $serviceName
+     * @param mixed $instance
+     */
+    public function setService($serviceName, $instance){
+        $cname = $this->sanitize($serviceName);
+        $this->instances[$cname] = $instance;
     }
 }
