@@ -6,7 +6,7 @@ namespace SoPhp\Framework\Rpc\Dto;
 
 class Response {
     /** @var bool */
-    protected $isException = false;
+    protected $isFault = false;
     /** @var mixed */
     protected $rpcReturnValue = null;
 
@@ -16,24 +16,24 @@ class Response {
      */
     public function __construct($rpcReturnValue, $isException = false){
         $this->setRpcReturnValue($rpcReturnValue);
-        $this->setIsException($isException);
+        $this->setIsFault($isException);
     }
 
     /**
      * @return boolean
      */
-    public function isIsException()
+    public function isFault()
     {
-        return $this->isException;
+        return $this->isFault;
     }
 
     /**
-     * @param boolean $isException
+     * @param boolean $isFault
      * @return self
      */
-    public function setIsException($isException)
+    public function setIsFault($isFault)
     {
-        $this->isException = $isException;
+        $this->isFault = $isFault;
         return $this;
     }
 
