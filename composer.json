@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "videlalvaro/php-amqplib": "v2.1.0"
+        "videlalvaro/php-amqplib": "v2.2.6"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
