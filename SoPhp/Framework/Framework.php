@@ -117,6 +117,12 @@ class Framework implements FrameworkInterface, BundleInterface,
             $this->channel->wait();
         }
 
+        // todo run loop
+        // while not stop conditions
+        // wait on rabbitmq channels
+        // trigger EVENT_FRAMEWORK_IDLE (so bundles have an async hook)
+
+
         $this->activator->stop($this->getContext());
     }
 

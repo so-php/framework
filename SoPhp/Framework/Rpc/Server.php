@@ -34,10 +34,14 @@ class Server implements ChannelAwareInterface, ServiceLocatorAwareInterface {
     }
 
     /**
+     * Register queue for service for RPC exchange (if not already)
      * @param  string$serviceName
      */
     public function registerService($serviceName){
         $this->_init();
+        if($this->isServiceRegistered($serviceName)){
+            return;
+        }
 
         $route = Rpc::serviceNameToBindingRoute($serviceName);
         $channel = $this->getChannel();
@@ -46,11 +50,37 @@ class Server implements ChannelAwareInterface, ServiceLocatorAwareInterface {
         $channel->queue_bind($route, Rpc::EXCHANGE_NAME, $route);
         $channel->basic_consume($route, '', false, false, false, false, array($this, 'onRpcRequest'));
 
+        // service to list of registered queues
         $this->serviceQueues[$serviceName] = $route;
     }
 
+    /**
+     * Unregister queue for service from RPC exchange
+     * Deletes queue if unused
+     * @param $serviceName
+     */
     public function unregisterService($serviceName){
-        // TODO
+        if(!$this->isServiceRegistered($serviceName)){
+            return;
+        }
+
+        $this->_init();
+        $route = Rpc::serviceNameToBindingRoute($serviceName);
+        $channel = $this->getChannel();
+
+        $channel->queue_unbind($route, Rpc::EXCHANGE_NAME, $route);
+        $channel->queue_delete($route, true, true);
+
+        unset($this->serviceQueues[$serviceName]);
+    }
+
+    /**
+     * Check if service has been registered
+     * @param $serviceName
+     * @return bool
+     */
+    public function isServiceRegistered($serviceName){
+        return isset($this->serviceQueues[$serviceName]);
     }
 
     /**
