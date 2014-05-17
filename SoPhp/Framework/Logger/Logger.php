@@ -95,7 +95,7 @@ class Logger {
      * @param string $message
      */
     protected function message($priority, $message){
-        $msg = $this->getMessage("$priority: $message");
+        $msg = $this->getMessage(sprintf("%s %s: %s", getmypid(), $priority, $message));
 
         $this->getChannel()->basic_publish($msg, self::EXCHANGE_NAME);
     }
