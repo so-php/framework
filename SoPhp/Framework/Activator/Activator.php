@@ -3,8 +3,10 @@
 
 namespace SoPhp\Framework\Activator;
 
+use SoPhp\Framework\Logger\Listener\Console;
+use SoPhp\Framework\Logger\Listener\ListenerAbstract;
+use SoPhp\Framework\ServiceLocator\Adapter\Stub;
 use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorStub;
 use PhpAmqpLib\Channel\AMQPChannel;
 use SoPhp\Framework\Activator\Context\Context;
 use SoPhp\Framework\Bundle\Loader\Loader;
@@ -13,6 +15,8 @@ use SoPhp\Framework\Bundle\Loader\Loader;
 class Activator implements ActivatorInterface {
     /** @var  Loader */
     protected $loader;
+    /** @var  ListenerAbstract */
+    protected $logListener;
 
     /**
      * @return Loader
@@ -43,6 +47,8 @@ class Activator implements ActivatorInterface {
         $logger = $context->getLogger();
         $logger->info("Starting Bundles ...");
 
+        $this->initLogger($context);
+
         $this->initServiceLocator($context);
 
         $this->startBundles($context);
@@ -70,7 +76,7 @@ class Activator implements ActivatorInterface {
     {
         $framework = $context->getFramework();
         if($framework instanceof ServiceLocatorAwareTrait) {
-            $serviceLocator = new ServiceLocatorStub();
+            $serviceLocator = new Stub();
             $serviceLocator->setConfig($context->getFramework()->getConfig());
             $framework->setServiceLocator($serviceLocator);
         }
@@ -102,6 +108,15 @@ class Activator implements ActivatorInterface {
         foreach($framework->getBundles() as $bundle){
             $framework->stop($bundle);
         }
+    }
+
+    /**
+     * @param Context $context
+     */
+    protected function initLogger(Context $context)
+    {
+        $listener = new Console($context->getChannel());
+        $listener->start();
     }
 
 
