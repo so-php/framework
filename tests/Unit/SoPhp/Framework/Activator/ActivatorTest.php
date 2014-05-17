@@ -55,6 +55,9 @@ class ActivatorTest extends \PHPUnit_Framework_TestCase {
         $frameworkMock->expects($this->once())
             ->method('start')
             ->with($context->getBundle());
+        $frameworkMock->expects($this->any())
+            ->method('getChannel')
+            ->will($this->returnValue($this->getMock('\PhpAmqpLib\Channel\AMQPChannel', array(), array(), '', false)));
 
         $loaderMock = $this->getMock('\SoPhp\Framework\Bundle\Loader\Loader');
         $loaderMock->expects($this->once())
