@@ -7,10 +7,10 @@ require_once __DIR__ .'/bootstrap2.php';
 //define('AMQP_DEBUG', true);
 
 try {
-    $client = new Client('Hello\World\ServiceInterface');
+    $client = new Client('SoPhp\Bundle\Sample\Calculator\CalculatorServiceInterface');
     $client->setChannel($connection->channel());
-    $r = $client->greet("Hello!");
-    echo " [*] RPC Response: " . print_r($r, true) . "\n";
+    $sum = $client->add(7, 13);
+    echo " [*] RPC Response: " . print_r($sum, true) . "\n";
 } catch(RpcFailure $e) {
     echo " [!] RPC failed: " . $e ->getMessage() . PHP_EOL;
 }

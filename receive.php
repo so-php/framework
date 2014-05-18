@@ -1,4 +1,5 @@
 <?php
+use SoPhp\Bundle\Sample\Calculator\CalculatorService;
 use SoPhp\Framework\Rpc\Server;
 use SoPhp\Framework\ServiceLocator\Adapter\Stub;
 
@@ -8,16 +9,13 @@ $channel = $connection->channel();
 
 $server = new Server();
 $server->setChannel($channel);
-$server->registerService('Hello\World\ServiceInterface');
+$server->registerService('\SoPhp\Bundle\Sample\Calculator\CalculatorServiceInterface');
 $locator = new Stub();
 $server->setServiceLocator($locator);
 
-class Mock {
-    public function __call($name, $params){
-        return "called `$name` with parameters: " .print_r($params,true);
-    }
-}
-$locator->setService('Hello\World\ServiceInterface', new Mock());
+$locator->setService('\SoPhp\Bundle\Sample\Calculator\CalculatorServiceInterface',
+    new CalculatorService());
+var_dump($locator->get('SoPhp\Bundle\Sample\Calculator\CalculatorServiceInterface'));
 
 echo " [x] Awaiting RPC requests. To exit press CTRL+C\n";
 
