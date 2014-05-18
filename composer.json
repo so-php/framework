@@ -8,11 +8,21 @@
             "email": "jeremygiberson@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/so-php/bundle-sample-calculator"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/so-php/bundle-sample-calculator-implementation"
+        }
+    ],
     "require": {
-        "videlalvaro/php-amqplib": "v2.2.6"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*"
+        "videlalvaro/php-amqplib": "v2.2.6",
+        "phpunit/phpunit": "3.7.*",
+        "so-php/bundle-sample-calculator": "*",
+        "so-php/bundle-sample-calculator-implementation": "*"
     },
     "autoload": {
         "psr-4": {"SoPhp\\Framework\\": "SoPhp\\Framework/"}
