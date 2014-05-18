@@ -1,12 +1,18 @@
 <?php
 
 
-namespace Framework\ServiceRegistry;
+namespace SoPhp\Framework\ServiceRegistry;
 
 
-use SoPhp\Framework\ServiceRegistry\ServiceRegistryInterface;
+use SoPhp\Framework\Rpc\Server\ServerAwareInterface;
+use SoPhp\Framework\Rpc\Server\ServerAwareTrait;
+use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareInterface;
+use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
 
-class ServiceRegistry implements ServiceRegistryInterface {
+class ServiceRegistry implements ServiceRegistryInterface, ServerAwareInterface,
+    ServiceLocatorAwareInterface {
+    use ServerAwareTrait;
+    use ServiceLocatorAwareTrait;
 
     /**
      * @param string $serviceInterface
@@ -14,7 +20,11 @@ class ServiceRegistry implements ServiceRegistryInterface {
      */
     public function registerService($serviceInterface, $serviceConcrete)
     {
-        // TODO: Implement registerService() method.
+        if(!$this->getRpcServer()){
+            throw new \RuntimeException("RPCServer was not provided");
+        }
+        $this->getRpcServer()->registerService($serviceInterface, $serviceConcrete);
+        $this->getServiceLocator()->setService($serviceInterface, $serviceConcrete);
     }
 
     /**
@@ -23,6 +33,10 @@ class ServiceRegistry implements ServiceRegistryInterface {
      */
     public function unregisterService($serviceInterface, $serviceConcrete)
     {
-        // TODO: Implement unregisterService() method.
+        if(!$this->getRpcServer()){
+            throw new \RuntimeException("RPCServer was not provided");
+        }
+        $this->getRpcServer()->unregisterService($serviceInterface, $serviceConcrete);
+        $this->getServiceLocator()->unsetService($serviceInterface);
     }
 }
