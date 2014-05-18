@@ -23,6 +23,6 @@ class Rpc {
      * @return string
      */
     public static function serviceNameToBindingRoute($serviceName){
-        return str_replace('\\', '.', $serviceName);
+        return ltrim(str_replace('\\', '.', $serviceName), '.');
     }
 } 
