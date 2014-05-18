@@ -18,7 +18,19 @@ interface ServiceLocatorInterface {
     public function canCreate($serviceName);
 
     /**
+     * @param string $serviceName
+     * @param mixed $instance
+     */
+    public function setService($serviceName, $instance);
+
+    /**
+     * @param string $serviceName
+     */
+    public function unsetService($serviceName);
+
+    /**
      * @return string
      */
     public function getId();
+
 } 

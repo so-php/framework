@@ -91,7 +91,7 @@ class Stub  implements ServiceLocatorInterface, ServiceLocatorPeerAwareInterface
      */
     protected function sanitize($name)
     {
-        return strtolower($name);
+        return ltrim(strtolower($name), '\\');
     }
 
     /**
@@ -131,4 +131,15 @@ class Stub  implements ServiceLocatorInterface, ServiceLocatorPeerAwareInterface
         $cname = $this->sanitize($serviceName);
         $this->instances[$cname] = $instance;
     }
+
+    /**
+     * @param string $serviceInterface
+     */
+    public function unsetService($serviceName)
+    {
+        $cname = $this->sanitize($serviceName);
+        unset($this->instances[$cname]);
+    }
+
+
 }
