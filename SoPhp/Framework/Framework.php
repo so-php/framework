@@ -8,6 +8,7 @@ use ArrayObject;
 use SoPhp\Framework\Bundle\ConfigProviderInterface;
 use SoPhp\Framework\Logger\LoggerAwareInterface;
 use SoPhp\Framework\ServiceLocator\Adapter\Stub;
+use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareInterface;
 use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
@@ -19,12 +20,16 @@ use SoPhp\Framework\Bundle\AutoloaderProviderInterface;
 use SoPhp\Framework\Bundle\BundleInterface;
 use SoPhp\Framework\Config\ConfigAwareTrait;
 use SoPhp\Framework\Logger\LazyLoggerProviderTrait;
+use SoPhp\Framework\ServiceRegistry\ServiceRegistryAwareInterface;
+use SoPhp\Framework\ServiceRegistry\ServiceRegistryAwareTrait;
 
 class Framework implements FrameworkInterface, BundleInterface,
-    LoggerAwareInterface {
+    LoggerAwareInterface, ServiceRegistryAwareInterface,
+    ServiceLocatorAwareInterface {
     use LazyLoggerProviderTrait;
     use ConfigAwareTrait;
     use ServiceLocatorAwareTrait;
+    use ServiceRegistryAwareTrait;
 
     /** @var  ActivatorInterface */
     protected $activator;
@@ -100,7 +105,8 @@ class Framework implements FrameworkInterface, BundleInterface,
         $this->setChannel($this->getConnection()->channel());
 
         $this->activator = new Activator();
-        $this->activator->start(new Context($this, $this));
+        $this->context = new Context($this, $this);
+        $this->activator->start($this->context);
     }
 
     /**
@@ -154,6 +160,7 @@ class Framework implements FrameworkInterface, BundleInterface,
     public function start(BundleInterface $bundle)
     {
         $context = new Context($bundle, $this);
+        $context->setServiceRegistry($this->getServiceRegistry());
 
         $this->configureContext($context, $bundle);
 
