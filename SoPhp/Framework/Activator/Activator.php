@@ -3,16 +3,16 @@
 
 namespace SoPhp\Framework\Activator;
 
-use SoPhp\Framework\ServiceRegistry\ServiceRegistry;
 use SoPhp\Framework\Logger\Listener\Console;
 use SoPhp\Framework\Logger\Listener\ListenerAbstract;
-use SoPhp\Framework\Rpc\Server;
 use SoPhp\Framework\ServiceLocator\Adapter\Stub;
 use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareInterface;
 use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
 use SoPhp\Framework\Activator\Context\Context;
 use SoPhp\Framework\Bundle\Loader\Loader;
-use SoPhp\Framework\ServiceRegistry\ServiceRegistryAwareInterface;
+use SoPhp\ServiceRegistry\ServiceRegistry;
+use SoPhp\ServiceRegistry\ServiceRegistryAwareInterface;
+use SoPhp\ServiceRegistry\Storage\Mongo\Mongo;
 
 
 class Activator implements ActivatorInterface {
@@ -96,11 +96,8 @@ class Activator implements ActivatorInterface {
     {
         $framework = $context->getFramework();
         if($framework instanceof ServiceRegistryAwareInterface) {
-            $serviceRegistry = new ServiceRegistry();
-            $serviceRegistry->setRpcServer(new Server());
-            $serviceRegistry->setServiceLocator($context->getServiceLocator());
-            $serviceRegistry->getRpcServer()->setChannel($context->getChannel());
-            $serviceRegistry->getRpcServer()->setServiceLocator($context->getServiceLocator());
+            // TODO configure storage from config
+            $serviceRegistry = new ServiceRegistry($context->getChannel(), new Mongo());
             $framework->setServiceRegistry($serviceRegistry);
         }
     }

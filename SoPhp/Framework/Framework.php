@@ -5,6 +5,7 @@ namespace SoPhp\Framework;
 
 
 use ArrayObject;
+use PhpAmqpLib\Exception\AMQPTimeoutException;
 use SoPhp\Framework\Bundle\ConfigProviderInterface;
 use SoPhp\Framework\Logger\LoggerAwareInterface;
 use SoPhp\Framework\ServiceLocator\Adapter\Stub;
@@ -20,8 +21,8 @@ use SoPhp\Framework\Bundle\AutoloaderProviderInterface;
 use SoPhp\Framework\Bundle\BundleInterface;
 use SoPhp\Framework\Config\ConfigAwareTrait;
 use SoPhp\Framework\Logger\LazyLoggerProviderTrait;
-use SoPhp\Framework\ServiceRegistry\ServiceRegistryAwareInterface;
-use SoPhp\Framework\ServiceRegistry\ServiceRegistryAwareTrait;
+use SoPhp\ServiceRegistry\ServiceRegistryAwareInterface;
+use SoPhp\ServiceRegistry\ServiceRegistryAwareTrait;
 
 class Framework implements FrameworkInterface, BundleInterface,
     LoggerAwareInterface, ServiceRegistryAwareInterface,
@@ -120,7 +121,12 @@ class Framework implements FrameworkInterface, BundleInterface,
 
         // todo add stop condition
         while(count($this->channel->callbacks) > 0) {
-            $this->channel->wait();
+            try {
+
+                $this->channel->wait(null, false, 0.001);
+            } catch (AMQPTimeoutException $e){
+                // do idle event
+            }
         }
 
         // todo run loop

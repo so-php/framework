@@ -13,9 +13,9 @@ use SoPhp\Framework\Logger\LazyLoggerProviderTrait;
 use SoPhp\Framework\Logger\LoggerAwareInterface;
 use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareInterface;
 use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
-use SoPhp\Framework\ServiceRegistry\ServiceRegistryAwareInterface;
-use SoPhp\Framework\ServiceRegistry\ServiceRegistryAwareTrait;
-use SoPhp\Framework\ServiceRegistry\ServiceRegistryInterface;
+use SoPhp\ServiceRegistry\ServiceRegistryAwareInterface;
+use SoPhp\ServiceRegistry\ServiceRegistryAwareTrait;
+
 
 class Context implements ServiceLocatorAwareInterface, ServiceRegistryAwareInterface,
     ConfigAwareInterface, LoggerAwareInterface {
