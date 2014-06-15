@@ -5,14 +5,13 @@ namespace SoPhp\Framework\Activator;
 
 use SoPhp\Framework\Logger\Listener\Console;
 use SoPhp\Framework\Logger\Listener\ListenerAbstract;
-use SoPhp\Framework\ServiceLocator\Adapter\Stub;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareInterface;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
 use SoPhp\Framework\Activator\Context\Context;
 use SoPhp\Framework\Bundle\Loader\Loader;
 use SoPhp\ServiceRegistry\ServiceRegistry;
 use SoPhp\ServiceRegistry\ServiceRegistryAwareInterface;
 use SoPhp\ServiceRegistry\Storage\Mongo\Mongo;
+use Zend\ServiceManager\Config;
+use Zend\ServiceManager\ServiceManager;
 
 
 class Activator implements ActivatorInterface {
@@ -80,13 +79,17 @@ class Activator implements ActivatorInterface {
     protected function initServiceLocator(Context $context)
     {
         $framework = $context->getFramework();
-        $serviceLocator = new Stub();
-        $serviceLocator->setConfig($context->getFramework()->getConfig());
+        $manager = new ServiceManager();
+        $manager->setAllowOverride(true);
+        $manager->setShareByDefault(false);
 
-        if($framework instanceof ServiceLocatorAwareInterface) {
-            $framework->setServiceLocator($serviceLocator);
-        }
-        $context->setServiceLocator($serviceLocator);
+        $configArray = $framework->getConfig();
+        $config = new Config(@$configArray['service_manager'] ?: array());
+        $config->configureServiceManager($manager);
+
+        $framework->setServiceLocator($manager);
+
+        $context->setServiceLocator($manager);
     }
 
     /**

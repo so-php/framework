@@ -8,9 +8,6 @@ use ArrayObject;
 use PhpAmqpLib\Exception\AMQPTimeoutException;
 use SoPhp\Framework\Bundle\ConfigProviderInterface;
 use SoPhp\Framework\Logger\LoggerAwareInterface;
-use SoPhp\Framework\ServiceLocator\Adapter\Stub;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareInterface;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
 use SoPhp\Framework\Activator\Activator;
@@ -23,13 +20,17 @@ use SoPhp\Framework\Config\ConfigAwareTrait;
 use SoPhp\Framework\Logger\LazyLoggerProviderTrait;
 use SoPhp\ServiceRegistry\ServiceRegistryAwareInterface;
 use SoPhp\ServiceRegistry\ServiceRegistryAwareTrait;
+use Zend\ServiceManager\Config;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceManager;
 
 class Framework implements FrameworkInterface, BundleInterface,
     LoggerAwareInterface, ServiceRegistryAwareInterface,
     ServiceLocatorAwareInterface {
+    use ServiceLocatorAwareTrait;
     use LazyLoggerProviderTrait;
     use ConfigAwareTrait;
-    use ServiceLocatorAwareTrait;
     use ServiceRegistryAwareTrait;
 
     /** @var  ActivatorInterface */
@@ -170,10 +171,20 @@ class Framework implements FrameworkInterface, BundleInterface,
 
         $this->configureContext($context, $bundle);
 
-        $locator = new Stub();
-        $locator->setConfig($context->getConfig());
-        // link locator to framework locator
-        $context->setServiceLocator($locator);
+        $locator = new ServiceManager();
+        if($bundle instanceof ConfigProviderInterface){
+            $configArray = $bundle->getConfig();
+            $config = new Config(@$configArray['service_manager'] ?: array());
+            $config->configureServiceManager($locator);
+        }
+
+        /** @var ServiceManager $manager */
+        $manager = $this->getServiceLocator();
+        $manager->addPeeringServiceManager($locator, Servicemanager::SCOPE_CHILD);
+        $locator->addPeeringServiceManager($manager, ServiceManager::SCOPE_PARENT);
+
+
+        $context->setServiceLocator($this->getServiceLocator());
 
         if($bundle instanceof ActivatorProviderInterface){
             $activator = $bundle->getActivator();

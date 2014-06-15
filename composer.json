@@ -23,7 +23,8 @@
         "phpunit/phpunit": "3.7.*",
         "so-php/bundle-sample-calculator": "*",
         "so-php/bundle-sample-calculator-implementation": "*",
-        "so-php/service-registry": "dev-master"
+        "so-php/service-registry": "dev-master",
+        "zendframework/zend-servicemanager": "2.3.*@dev"
     },
     "autoload": {
         "psr-4": {"SoPhp\\Framework\\": "SoPhp\\Framework/"}

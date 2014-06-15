@@ -8,7 +8,7 @@ use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
 use SoPhp\Framework\Bundle\BundleInterface;
 use SoPhp\Framework\Config\ConfigAwareInterface;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 interface FrameworkInterface extends ConfigAwareInterface {
     /**

@@ -11,10 +11,10 @@ use SoPhp\Framework\Config\ConfigAwareTrait;
 use SoPhp\Framework\FrameworkInterface;
 use SoPhp\Framework\Logger\LazyLoggerProviderTrait;
 use SoPhp\Framework\Logger\LoggerAwareInterface;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareInterface;
-use SoPhp\Framework\ServiceLocator\ServiceLocatorAwareTrait;
 use SoPhp\ServiceRegistry\ServiceRegistryAwareInterface;
 use SoPhp\ServiceRegistry\ServiceRegistryAwareTrait;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 
 class Context implements ServiceLocatorAwareInterface, ServiceRegistryAwareInterface,
