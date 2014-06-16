@@ -11,12 +11,12 @@
     "require": {
         "videlalvaro/php-amqplib": "v2.2.6",
         "phpunit/phpunit": "3.7.*",
-        "so-php/bundle-sample-calculator": "0.0.1-alpha",
-        "so-php/bundle-sample-calculator-implementation": "0.0.1-alpha",
-        "so-php/service-registry": "0.0.1-alpha",
-        "so-php/rpc": "0.0.1-alpha",
-        "so-php/pubsub": "0.0.1-alpha",
-	"so-php/php-amqplib-extensions": "0.0.1-alpha",
+        "so-php/bundle-sample-calculator": "~0.0-alpha",
+        "so-php/bundle-sample-calculator-implementation": "~0.0-alpha",
+        "so-php/service-registry": "~0.0-alpha",
+        "so-php/rpc": "~0.0-alpha",
+        "so-php/pubsub": "~0.0-alpha",
+	"so-php/php-amqplib-extensions": "~0.0-alpha",
         "zendframework/zend-servicemanager": "2.3.*@dev"
     },
     "autoload": {
